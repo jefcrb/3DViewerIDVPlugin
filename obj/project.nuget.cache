@@ -1,0 +1,61 @@
+{
+  "version": 2,
+  "dgSpecHash": "9sQCLIA3uXs=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\jef\\Downloads\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf.3DViewerIDV\\neo-bpsys-wpf.3DViewerIDV.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\jef\\.nuget\\packages\\communitytoolkit.mvvm\\8.4.0\\communitytoolkit.mvvm.8.4.0.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\hyjiacan.pinyin4net\\4.1.1\\hyjiacan.pinyin4net.4.1.1.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\microsoft.extensions.configuration\\10.0.3\\microsoft.extensions.configuration.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\10.0.3\\microsoft.extensions.configuration.abstractions.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\microsoft.extensions.configuration.binder\\10.0.3\\microsoft.extensions.configuration.binder.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\microsoft.extensions.configuration.commandline\\10.0.3\\microsoft.extensions.configuration.commandline.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\microsoft.extensions.configuration.environmentvariables\\10.0.3\\microsoft.extensions.configuration.environmentvariables.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\microsoft.extensions.configuration.fileextensions\\10.0.3\\microsoft.extensions.configuration.fileextensions.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\microsoft.extensions.configuration.json\\10.0.3\\microsoft.extensions.configuration.json.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\microsoft.extensions.configuration.usersecrets\\10.0.3\\microsoft.extensions.configuration.usersecrets.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\10.0.3\\microsoft.extensions.dependencyinjection.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.3\\microsoft.extensions.dependencyinjection.abstractions.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\microsoft.extensions.diagnostics\\10.0.3\\microsoft.extensions.diagnostics.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\microsoft.extensions.diagnostics.abstractions\\10.0.3\\microsoft.extensions.diagnostics.abstractions.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\microsoft.extensions.fileproviders.abstractions\\10.0.3\\microsoft.extensions.fileproviders.abstractions.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\microsoft.extensions.fileproviders.physical\\10.0.3\\microsoft.extensions.fileproviders.physical.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\microsoft.extensions.filesystemglobbing\\10.0.3\\microsoft.extensions.filesystemglobbing.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\microsoft.extensions.hosting\\10.0.3\\microsoft.extensions.hosting.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\microsoft.extensions.hosting.abstractions\\10.0.3\\microsoft.extensions.hosting.abstractions.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\microsoft.extensions.logging\\10.0.3\\microsoft.extensions.logging.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\10.0.3\\microsoft.extensions.logging.abstractions.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\microsoft.extensions.logging.configuration\\10.0.3\\microsoft.extensions.logging.configuration.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\microsoft.extensions.logging.console\\10.0.3\\microsoft.extensions.logging.console.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\microsoft.extensions.logging.debug\\10.0.3\\microsoft.extensions.logging.debug.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\microsoft.extensions.logging.eventlog\\10.0.3\\microsoft.extensions.logging.eventlog.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\microsoft.extensions.logging.eventsource\\10.0.3\\microsoft.extensions.logging.eventsource.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\microsoft.extensions.options\\10.0.3\\microsoft.extensions.options.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\microsoft.extensions.options.configurationextensions\\10.0.3\\microsoft.extensions.options.configurationextensions.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\microsoft.extensions.primitives\\10.0.3\\microsoft.extensions.primitives.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\microsoft.web.webview2\\1.0.2739.15\\microsoft.web.webview2.1.0.2739.15.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\opencvsharp4\\4.13.0.20260222\\opencvsharp4.4.13.0.20260222.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\system.diagnostics.diagnosticsource\\10.0.3\\system.diagnostics.diagnosticsource.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\system.diagnostics.eventlog\\10.0.3\\system.diagnostics.eventlog.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\system.io.pipelines\\10.0.3\\system.io.pipelines.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\system.memory\\4.6.3\\system.memory.4.6.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\system.text.encodings.web\\10.0.3\\system.text.encodings.web.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\system.text.json\\10.0.3\\system.text.json.10.0.3.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\wpf-ui\\4.2.0\\wpf-ui.4.2.0.nupkg.sha512",
+    "C:\\Users\\jef\\.nuget\\packages\\wpf-ui.abstractions\\4.2.0\\wpf-ui.abstractions.4.2.0.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1603",
+      "level": "Warning",
+      "message": "neo-bpsys-wpf.3DViewerIDV depends on Microsoft.Web.WebView2 (>= 1.0.2730.86) but Microsoft.Web.WebView2 1.0.2730.86 was not found. Microsoft.Web.WebView2 1.0.2739.15 was resolved instead.",
+      "projectPath": "C:\\Users\\jef\\Downloads\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf.3DViewerIDV\\neo-bpsys-wpf.3DViewerIDV.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\jef\\Downloads\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf.3DViewerIDV\\neo-bpsys-wpf.3DViewerIDV.csproj",
+      "libraryId": "Microsoft.Web.WebView2",
+      "targetGraphs": [
+        "net9.0-windows7.0"
+      ]
+    }
+  ]
+}

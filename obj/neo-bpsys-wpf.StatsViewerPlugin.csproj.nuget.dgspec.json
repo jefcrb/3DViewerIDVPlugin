@@ -1,0 +1,242 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\jef\\Downloads\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf.StatsViewerPlugin\\neo-bpsys-wpf.StatsViewerPlugin.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\jef\\Downloads\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf.Core\\neo-bpsys-wpf.Core.csproj": {
+      "version": "2.0.9",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\jef\\Downloads\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf.Core\\neo-bpsys-wpf.Core.csproj",
+        "projectName": "neo-bpsys-wpf.Core",
+        "projectPath": "C:\\Users\\jef\\Downloads\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf.Core\\neo-bpsys-wpf.Core.csproj",
+        "packagesPath": "C:\\Users\\jef\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\jef\\Downloads\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf.Core\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\jef\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0-windows"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0-windows7.0": {
+            "targetAlias": "net9.0-windows",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
+      },
+      "frameworks": {
+        "net9.0-windows7.0": {
+          "targetAlias": "net9.0-windows",
+          "dependencies": {
+            "CommunityToolkit.Mvvm": {
+              "target": "Package",
+              "version": "[8.4.0, )"
+            },
+            "Microsoft.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[10.0.3, )"
+            },
+            "Microsoft.Extensions.Hosting": {
+              "target": "Package",
+              "version": "[10.0.3, )"
+            },
+            "Microsoft.Extensions.Hosting.Abstractions": {
+              "target": "Package",
+              "version": "[10.0.3, )"
+            },
+            "OpenCvSharp4": {
+              "target": "Package",
+              "version": "[4.13.0.20260222, )"
+            },
+            "WPF-UI": {
+              "target": "Package",
+              "version": "[4.2.0, )"
+            },
+            "hyjiacan.pinyin4net": {
+              "target": "Package",
+              "version": "[4.1.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WPF": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\jef\\Downloads\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf.PluginSdk\\neo-bpsys-wpf.PluginSdk.csproj": {
+      "version": "0.1.7",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\jef\\Downloads\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf.PluginSdk\\neo-bpsys-wpf.PluginSdk.csproj",
+        "projectName": "neo-bpsys-wpf.PluginSdk",
+        "projectPath": "C:\\Users\\jef\\Downloads\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf.PluginSdk\\neo-bpsys-wpf.PluginSdk.csproj",
+        "packagesPath": "C:\\Users\\jef\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\jef\\Downloads\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf.PluginSdk\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\jef\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0-windows"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0-windows7.0": {
+            "targetAlias": "net9.0-windows",
+            "projectReferences": {
+              "C:\\Users\\jef\\Downloads\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf.Core\\neo-bpsys-wpf.Core.csproj": {
+                "projectPath": "C:\\Users\\jef\\Downloads\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf.Core\\neo-bpsys-wpf.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
+      },
+      "frameworks": {
+        "net9.0-windows7.0": {
+          "targetAlias": "net9.0-windows",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\jef\\Downloads\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf.StatsViewerPlugin\\neo-bpsys-wpf.StatsViewerPlugin.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\jef\\Downloads\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf.StatsViewerPlugin\\neo-bpsys-wpf.StatsViewerPlugin.csproj",
+        "projectName": "neo-bpsys-wpf.3DViewerIDV",
+        "projectPath": "C:\\Users\\jef\\Downloads\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf.StatsViewerPlugin\\neo-bpsys-wpf.StatsViewerPlugin.csproj",
+        "packagesPath": "C:\\Users\\jef\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\jef\\Downloads\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf.StatsViewerPlugin\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\jef\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0-windows"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0-windows7.0": {
+            "targetAlias": "net9.0-windows",
+            "projectReferences": {
+              "C:\\Users\\jef\\Downloads\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf.PluginSdk\\neo-bpsys-wpf.PluginSdk.csproj": {
+                "projectPath": "C:\\Users\\jef\\Downloads\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf-dev-2.1.0\\neo-bpsys-wpf.PluginSdk\\neo-bpsys-wpf.PluginSdk.csproj",
+                "excludeAssets": "runtime"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
+      },
+      "frameworks": {
+        "net9.0-windows7.0": {
+          "targetAlias": "net9.0-windows",
+          "dependencies": {
+            "Microsoft.Web.WebView2": {
+              "target": "Package",
+              "version": "[1.0.2730.86, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WPF": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

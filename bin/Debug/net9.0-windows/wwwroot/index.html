@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stats Viewer - Dummy Example</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: fadeIn 1s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            animation: slideIn 0.5s ease-out;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .team {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .character {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        .character:hover {
+            transform: scale(1.05) rotate(1deg);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .character.banned {
+            background: rgba(255, 50, 50, 0.4);
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+        .character.selected {
+            background: rgba(100, 255, 100, 0.3);
+            border-color: rgba(100, 255, 100, 0.8);
+        }
+        .character.survivor {
+            border-left: 4px solid #4CAF50;
+        }
+        .character.hunter {
+            border-left: 4px solid #f44336;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            margin: 10px;
+            min-width: 150px;
+            transition: all 0.3s ease;
+        }
+        .stat-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.25);
+        }
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #FFD700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+        button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+        button:active {
+            transform: scale(0.95);
+        }
+        .info-box {
+            background: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid #FFD700;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        h2 {
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .badge {
+            background: rgba(255, 215, 0, 0.3);
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 Game Stats Viewer</h1>
+
+        <div class="info-box">
+            <strong>ℹ️ Info:</strong> This is a dummy HTML/JS page. In the actual plugin, game data is injected from C# via the ViewModel.
+        </div>
+
+        <div class="controls">
+            <button onclick="refreshData()">🔄 Refresh Data</button>
+            <button onclick="toggleTheme()">🎨 Toggle Theme</button>
+            <button onclick="exportData()">💾 Export JSON</button>
+        </div>
+
+        <div class="section stats">
+            <div class="stat-item">
+                <div class="stat-value" id="timer">120</div>
+                <div class="stat-label">⏱️ Timer (seconds)</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="mode">BO3</div>
+                <div class="stat-label">🎯 Game Mode</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="totalChars">0</div>
+                <div class="stat-label">👥 Total Characters</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🏠 Home Team <span class="badge" id="homeTeamCount">0</span></h2>
+            <div class="team" id="homeTeam"></div>
+        </div>
+
+        <div class="section">
+            <h2>✈️ Away Team <span class="badge" id="awayTeamCount">0</span></h2>
+            <div class="team" id="awayTeam"></div>
+        </div>
+
+        <div class="section">
+            <h2>📊 All Characters</h2>
+            <h3>🏃 Survivors <span class="badge" id="survivorCount">0</span></h3>
+            <div class="team" id="survivors"></div>
+            <h3>🔪 Hunters <span class="badge" id="hunterCount">0</span></h3>
+            <div class="team" id="hunters"></div>
+        </div>
+    </div>
+
+    <script>
+        // Dummy game data for demonstration
+        // In the real plugin, this will be replaced with actual data from C#
+        let gameData = {
+            homeTeam: [
+                { name: "Doctor", camp: "Sur" },
+                { name: "Lawyer", camp: "Sur" },
+                { name: "Thief", camp: "Sur" },
+                { name: "Gardener", camp: "Sur" }
+            ],
+            awayTeam: [
+                { name: "Mechanic", camp: "Sur" },
+                { name: "Coordinator", camp: "Sur" },
+                { name: "Mercenary", camp: "Sur" },
+                { name: "Forward", camp: "Sur" }
+            ],
+            survivorCharacters: [
+                { name: "Doctor" },
+                { name: "Lawyer" },
+                { name: "Thief" },
+                { name: "Gardener" },
+                { name: "Mechanic" },
+                { name: "Coordinator" },
+                { name: "Mercenary" },
+                { name: "Forward" },
+                { name: "Priestess" },
+                { name: "Perfumer" }
+            ],
+            hunterCharacters: [
+                { name: "Hell Ember" },
+                { name: "Ripper" },
+                { name: "Gamekeeper" },
+                { name: "Soul Weaver" },
+                { name: "Geisha" }
+            ],
+            timerRemaining: 120,
+            isBo3Mode: true,
+            isTraitVisible: true
+        };
+
+        function updateUI() {
+            // Update timer
+            document.getElementById('timer').textContent = gameData.timerRemaining || 0;
+
+            // Update mode
+            document.getElementById('mode').textContent = gameData.isBo3Mode ? 'BO3' : 'Standard';
+
+            // Update teams
+            updateTeam('homeTeam', gameData.homeTeam, 'homeTeamCount');
+            updateTeam('awayTeam', gameData.awayTeam, 'awayTeamCount');
+
+            // Update all characters
+            updateCharacters('survivors', gameData.survivorCharacters, 'survivorCount');
+            updateCharacters('hunters', gameData.hunterCharacters, 'hunterCount');
+
+            // Update total characters
+            const total = (gameData.survivorCharacters?.length || 0) + (gameData.hunterCharacters?.length || 0);
+            document.getElementById('totalChars').textContent = total;
+        }
+
+        function updateTeam(elementId, team, counterId) {
+            const container = document.getElementById(elementId);
+            const counter = document.getElementById(counterId);
+            container.innerHTML = '';
+
+            if (!team || team.length === 0) {
+                container.innerHTML = '<div class="character">No members</div>';
+                counter.textContent = '0';
+                return;
+            }
+
+            counter.textContent = team.length;
+
+            team.forEach((member, index) => {
+                const div = document.createElement('div');
+                const campClass = member.camp === 'Sur' ? 'survivor' : 'hunter';
+                div.className = 'character ' + campClass;
+                div.innerHTML = `<strong>${member.name || 'Unknown'}</strong><br><small>${member.camp === 'Sur' ? 'Survivor' : 'Hunter'}</small>`;
+                div.onclick = () => toggleCharacterSelection(div);
+
+                // Animate each character appearing
+                setTimeout(() => {
+                    div.style.animation = 'slideIn 0.5s ease-out';
+                }, index * 50);
+
+                container.appendChild(div);
+            });
+        }
+
+        function updateCharacters(elementId, characters, counterId) {
+            const container = document.getElementById(elementId);
+            const counter = document.getElementById(counterId);
+            container.innerHTML = '';
+
+            if (!characters || characters.length === 0) {
+                container.innerHTML = '<div class="character">No characters available</div>';
+                counter.textContent = '0';
+                return;
+            }
+
+            counter.textContent = characters.length;
+
+            characters.forEach((char, index) => {
+                const div = document.createElement('div');
+                div.className = 'character';
+                div.innerHTML = `<strong>${char.name || 'Unknown'}</strong>`;
+                div.onclick = () => toggleCharacterSelection(div);
+
+                // Animate each character appearing
+                setTimeout(() => {
+                    div.style.animation = 'slideIn 0.5s ease-out';
+                }, index * 50);
+
+                container.appendChild(div);
+            });
+        }
+
+        function toggleCharacterSelection(element) {
+            element.classList.toggle('selected');
+        }
+
+        function refreshData() {
+            // Simulate timer countdown
+            if (gameData.timerRemaining > 0) {
+                gameData.timerRemaining -= 10;
+            }
+
+            updateUI();
+
+            // Visual feedback
+            const button = event.target;
+            button.textContent = '✅ Refreshed!';
+            setTimeout(() => {
+                button.textContent = '🔄 Refresh Data';
+            }, 1000);
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const currentBg = body.style.background;
+
+            if (currentBg.includes('#667eea')) {
+                body.style.background = 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)';
+            } else if (currentBg.includes('#f093fb')) {
+                body.style.background = 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)';
+            } else {
+                body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            }
+        }
+
+        function exportData() {
+            const dataStr = JSON.stringify(gameData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'game-stats.json';
+            link.click();
+            URL.revokeObjectURL(url);
+
+            // Visual feedback
+            const button = event.target;
+            button.textContent = '✅ Exported!';
+            setTimeout(() => {
+                button.textContent = '💾 Export JSON';
+            }, 1000);
+        }
+
+        // Initialize UI when page loads
+        updateUI();
+
+        // Simulate real-time updates (for demo purposes)
+        setInterval(() => {
+            if (gameData.timerRemaining > 0) {
+                gameData.timerRemaining--;
+                document.getElementById('timer').textContent = gameData.timerRemaining;
+            }
+        }, 1000);
+
+        console.log('📊 Stats Viewer loaded successfully!');
+        console.log('Game Data:', gameData);
+
+        // Example of how JavaScript can interact with C# (when using WebView2)
+        // In the actual plugin, you can call C# methods from JS like this:
+        /*
+        if (window.chrome && window.chrome.webview) {
+            window.chrome.webview.hostObjects.gameDataHost.GetGameDataJson().then(json => {
+                gameData = JSON.parse(json);
+                updateUI();
+            });
+        }
+        */
+    </script>
+</body>
+</html>

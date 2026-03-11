@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Hunter Viewer</title>
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+        #renderCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        #info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            display: none; /* Hidden by default */
+        }
+        #info h2 {
+            margin: 0 0 10px 0;
+            font-size: 24px;
+            color: #FFD700;
+        }
+        #info p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        #error {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ff6b6b;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="renderCanvas"></canvas>
+    <div id="info">
+        <h2 id="hunterName">Loading...</h2>
+        <p id="status">Initializing 3D viewer...</p>
+    </div>
+    <div id="error">
+        <h2>⚠️ Model Not Found</h2>
+        <p id="errorMessage"></p>
+    </div>
+
+    <script>
+        // This will be injected by C#
+        let hunterData = null;
+
+        // Try to get data from window object (injected by C#)
+        if (window.hunterData) {
+            hunterData = window.hunterData;
+        }
+
+        const TARGET_HEIGHT = 2.5; // Model height
+
+        // Character name mapping: Game name -> Folder name
+        const nameMapping = {
+            // Add mappings as needed - this is a fallback
+            // The C# code will pass the correct folder name
+        };
+
+        function getModelPath(characterName) {
+            // If hunter data is provided with modelPath, use it
+            if (hunterData && hunterData.modelPath) {
+                return hunterData.modelPath;
+            }
+
+            // Otherwise construct from character name
+            const folderName = nameMapping[characterName] || characterName.replace(/ /g, '_');
+            return `./hunters/${folderName}/`;
+        }
+
+        function getModelFile(characterName) {
+            if (hunterData && hunterData.modelFile) {
+                return hunterData.modelFile;
+            }
+
+            const folderName = nameMapping[characterName] || characterName.replace(/ /g, '_');
+            return `${folderName}.gltf`;
+        }
+
+        // ============================================
+        // Scene Setup
+        // ============================================
+        const canvas = document.getElementById('renderCanvas');
+        const engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true });
+
+        const createScene = () => {
+            const scene = new BABYLON.Scene(engine);
+            scene.clearColor = new BABYLON.Color4(0.1, 0.1, 0.18, 1);
+
+            // Camera
+            const camera = new BABYLON.ArcRotateCamera(
+                'camera',
+                -Math.PI / 2,
+                Math.PI / 2.5,
+                8,
+                new BABYLON.Vector3(0, 1, 0.5),
+                scene
+            );
+            camera.attachControl(canvas, true);
+            camera.lowerRadiusLimit = 4;
+            camera.upperRadiusLimit = 20;
+            camera.wheelPrecision = 50;
+
+            // Lighting
+            const hemisphericLight = new BABYLON.HemisphericLight(
+                'hemisphericLight',
+                new BABYLON.Vector3(0, 1, 0),
+                scene
+            );
+            hemisphericLight.intensity = 0.6;
+
+            const directionalLight = new BABYLON.DirectionalLight(
+                'directionalLight',
+                new BABYLON.Vector3(0.5, -1, 0.5),
+                scene
+            );
+            directionalLight.intensity = 0.7;
+
+            const backLight = new BABYLON.PointLight(
+                'backLight',
+                new BABYLON.Vector3(0, 2, -3),
+                scene
+            );
+            backLight.intensity = 0.4;
+
+            // Ground
+            const ground = BABYLON.MeshBuilder.CreateGround(
+                'ground',
+                { width: 10, height: 10 },
+                scene
+            );
+
+            const groundMaterial = new BABYLON.StandardMaterial('groundMaterial', scene);
+            groundMaterial.diffuseColor = new BABYLON.Color3(0.2, 0.2, 0.25);
+            groundMaterial.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
+            ground.material = groundMaterial;
+            ground.receiveShadows = true;
+
+            return scene;
+        };
+
+        const scene = createScene();
+
+        // Load the hunter model
+        function loadHunter(hunterName) {
+            const infoDiv = document.getElementById('hunterName');
+            const statusDiv = document.getElementById('status');
+            const errorDiv = document.getElementById('error');
+            const errorMessage = document.getElementById('errorMessage');
+
+            if (!hunterName) {
+                infoDiv.textContent = 'No Hunter Selected';
+                statusDiv.textContent = 'Please select a hunter in the game';
+                return;
+            }
+
+            infoDiv.textContent = hunterName;
+            statusDiv.textContent = 'Loading 3D model...';
+
+            const modelPath = getModelPath(hunterName);
+            const modelFile = getModelFile(hunterName);
+
+            console.log(`Loading hunter: ${hunterName}`);
+            console.log(`Model path: ${modelPath}${modelFile}`);
+
+            BABYLON.SceneLoader.ImportMesh(
+                '',
+                modelPath,
+                modelFile,
+                scene,
+                (meshes) => {
+                    console.log(`Successfully loaded: ${hunterName}`);
+                    statusDiv.textContent = `Model loaded successfully! (${meshes.length} meshes)`;
+
+                    if (meshes.length === 0) {
+                        errorDiv.style.display = 'block';
+                        errorMessage.textContent = `No meshes found in ${modelFile}`;
+                        return;
+                    }
+
+                    // Create a parent for the model
+                    const root = new BABYLON.TransformNode(hunterName, scene);
+
+                    // Parent all meshes
+                    meshes.forEach(mesh => {
+                        if (!mesh.parent) {
+                            mesh.parent = root;
+                        }
+                    });
+
+                    // Calculate bounding box
+                    const boundingInfo = meshes[0].getHierarchyBoundingVectors();
+                    const height = boundingInfo.max.y - boundingInfo.min.y;
+
+                    // Scale to target height
+                    if (height > 0) {
+                        const scale = TARGET_HEIGHT / height;
+                        root.scaling = new BABYLON.Vector3(scale, scale, scale);
+                        console.log(`Normalized ${hunterName}: original height=${height.toFixed(2)}, scale=${scale.toFixed(2)}`);
+                    }
+
+                    // Center the model
+                    root.position = new BABYLON.Vector3(0, 0, 0);
+
+                    // Add rotation animation
+                    scene.registerBeforeRender(() => {
+                        root.rotation.y += 0.005;
+                    });
+
+                    statusDiv.textContent = '✓ Ready - Use mouse to rotate camera';
+                },
+                null, // onProgress
+                (scene, message, exception) => {
+                    console.error(`Error loading ${hunterName}:`, message, exception);
+                    errorDiv.style.display = 'block';
+                    errorMessage.innerHTML = `
+                        <strong>Failed to load hunter model</strong><br>
+                        Hunter: ${hunterName}<br>
+                        Path: ${modelPath}${modelFile}<br>
+                        Error: ${message}
+                    `;
+                    statusDiv.textContent = '✗ Failed to load model';
+                }
+            );
+        }
+
+        // Track all loaded models
+        let loadedModels = [];
+
+        window.loadHunterFromJson = function(jsonData) {
+            console.log('Received game data from C#:', jsonData);
+
+            // Clear all previous models
+            loadedModels.forEach(root => {
+                if (root) root.dispose();
+            });
+            loadedModels = [];
+
+            const errorDiv = document.getElementById('error');
+            const errorMessage = document.getElementById('errorMessage');
+            errorDiv.style.display = 'none';
+
+            // Load hunter (positioned at back/center)
+            if (jsonData.hunter && jsonData.hunter.hasModel) {
+                loadModel(
+                    jsonData.hunter.modelPath,
+                    jsonData.hunter.modelFile,
+                    jsonData.hunter.name,
+                    new BABYLON.Vector3(0, 0, 2), // Back position
+                    'Hunter'
+                );
+            }
+
+            // Load survivors (4 positions in front)
+            if (jsonData.survivors && Array.isArray(jsonData.survivors)) {
+                const positions = [
+                    new BABYLON.Vector3(-1.5, 0, -1), // Left front
+                    new BABYLON.Vector3(-0.5, 0, -1), // Center-left front
+                    new BABYLON.Vector3(0.5, 0, -1),  // Center-right front
+                    new BABYLON.Vector3(1.5, 0, -1)   // Right front
+                ];
+
+                jsonData.survivors.forEach((survivor, index) => {
+                    if (survivor.hasModel && index < 4) {
+                        loadModel(
+                            survivor.modelPath,
+                            survivor.modelFile,
+                            survivor.name,
+                            positions[index],
+                            'Survivor'
+                        );
+                    }
+                });
+            }
+        };
+
+        function loadModel(modelPath, modelFile, name, position, type) {
+            console.log(`Loading ${type}: ${name}`);
+            console.log(`Model path: ${modelPath}${modelFile}`);
+
+            BABYLON.SceneLoader.ImportMesh(
+                '',
+                modelPath,
+                modelFile,
+                scene,
+                (meshes) => {
+                    console.log(`Successfully loaded ${type}: ${name} (${meshes.length} meshes)`);
+
+                    if (meshes.length === 0) {
+                        console.warn(`No meshes found in ${modelFile}`);
+                        return;
+                    }
+
+                    const root = new BABYLON.TransformNode(name, scene);
+                    loadedModels.push(root);
+
+                    meshes.forEach(mesh => {
+                        if (!mesh.parent) {
+                            mesh.parent = root;
+                        }
+                    });
+
+                    const boundingInfo = meshes[0].getHierarchyBoundingVectors();
+                    const height = boundingInfo.max.y - boundingInfo.min.y;
+
+                    if (height > 0) {
+                        const scale = TARGET_HEIGHT / height;
+                        root.scaling = new BABYLON.Vector3(scale, scale, scale);
+                        console.log(`Normalized ${name}: height=${height.toFixed(2)}, scale=${scale.toFixed(2)}`);
+                    }
+
+                    root.position = position;
+                },
+                null,
+                (scene, message, exception) => {
+                    console.error(`Error loading ${type} ${name}:`, message, exception);
+                }
+            );
+        }
+
+        // Initial state
+        document.getElementById('hunterName').textContent = 'Loading...';
+        document.getElementById('status').textContent = 'Waiting for hunter data...';
+
+        // Render loop
+        engine.runRenderLoop(() => {
+            scene.render();
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            engine.resize();
+        });
+    </script>
+</body>
+</html>

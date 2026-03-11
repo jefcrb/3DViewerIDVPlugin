@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <RootNamespace>neo_bpsys_wpf._3DViewerIDV</RootNamespace>
+    <AssemblyName>neo-bpsys-wpf.3DViewerIDV</AssemblyName>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <EnableDefaultItems>false</EnableDefaultItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\neo-bpsys-wpf.PluginSdk\neo-bpsys-wpf.PluginSdk.csproj">
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2730.86" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Plugin.cs" />
+    <Compile Include="ViewModels\StatsViewerWindowViewModel.cs" />
+    <Compile Include="Views\StatsViewerWindow.xaml.cs">
+      <DependentUpon>StatsViewerWindow.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="Views\StatsViewerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="manifest.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Import Project="..\neo-bpsys-wpf.PluginSdk\neo-bpsys-wpf.PluginSdk.targets" />
+
+</Project>
