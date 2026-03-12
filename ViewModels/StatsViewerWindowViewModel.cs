@@ -64,16 +64,14 @@ public partial class StatsViewerWindowViewModel : ViewModelBase
         }
     }
 
-    private string MapCharacterToFolderName(string characterName)
+    private string GetFolderNameFromImageFileName(string imageFileName)
     {
-        var mappings = new System.Collections.Generic.Dictionary<string, string> { };
-
-        if (mappings.TryGetValue(characterName, out var folderName))
+        if (string.IsNullOrEmpty(imageFileName))
         {
-            return folderName;
+            return string.Empty;
         }
 
-        return characterName.Replace(" ", "_");
+        return imageFileName.Replace(".png", "");
     }
 
     private void UpdateHtmlContent()
@@ -87,7 +85,7 @@ public partial class StatsViewerWindowViewModel : ViewModelBase
         if (hunterCharacter != null && !string.IsNullOrEmpty(hunterCharacter.Name))
         {
             hunterName = hunterCharacter.Name;
-            var folderName = MapCharacterToFolderName(hunterName);
+            var folderName = GetFolderNameFromImageFileName(hunterCharacter.ImageFileName);
 
             var pluginFolder = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
@@ -115,7 +113,7 @@ public partial class StatsViewerWindowViewModel : ViewModelBase
                 if (i < surPlayers.Count && surPlayers[i].Character != null && !string.IsNullOrEmpty(surPlayers[i].Character.Name))
                 {
                     var survivorChar = surPlayers[i].Character;
-                    var folderName = MapCharacterToFolderName(survivorChar.Name);
+                    var folderName = GetFolderNameFromImageFileName(survivorChar.ImageFileName);
 
                     var pluginFolder = Path.Combine(
                         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
