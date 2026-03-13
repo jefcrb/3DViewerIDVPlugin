@@ -2,12 +2,13 @@ using System;
 using System.IO;
 using System.Windows;
 using Microsoft.Web.WebView2.Core;
+using neo_bpsys_wpf.Core;
 using neo_bpsys_wpf.Core.Attributes;
 using neo_bpsys_wpf._3DViewerIDV.ViewModels;
 
 namespace neo_bpsys_wpf._3DViewerIDV.Views;
 
-[FrontedWindowInfo(id: "StatsViewerWindow", name: "Stats Viewer", canvas: ["MainCanvas"])]
+[FrontedWindowInfo(id: "StatsViewerWindow", name: "3D View", canvas: ["MainCanvas"])]
 public partial class StatsViewerWindow : Window
 {
     private readonly StatsViewerWindowViewModel _viewModel;
@@ -26,10 +27,11 @@ public partial class StatsViewerWindow : Window
     {
         try
         {
-            // Initialize WebView2
-            await WebView.EnsureCoreWebView2Async();
+            var userDataFolder = Path.Combine(AppConstants.AppDataPath, "WebView2");
+            var environment = await CoreWebView2Environment.CreateAsync(null, userDataFolder);
 
-            // Get the plugin folder path
+            await WebView.EnsureCoreWebView2Async(environment);
+
             var pluginFolder = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 "neo-bpsys-wpf", "Plugins", "3DViewerIDV"
