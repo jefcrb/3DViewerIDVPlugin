@@ -20,14 +20,24 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Models\PluginSettings.cs" />
     <Compile Include="Plugin.cs" />
+    <Compile Include="Services\WebServer.cs" />
+    <Compile Include="ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="ViewModels\StatsViewerWindowViewModel.cs" />
+    <Compile Include="Views\SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\StatsViewerWindow.xaml.cs">
       <DependentUpon>StatsViewerWindow.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
+    <Page Include="Views\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\StatsViewerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
