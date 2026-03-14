@@ -76,6 +76,7 @@ public partial class StatsViewerWindowViewModel : ViewModelBase
 
     private void UpdateHtmlContent()
     {
+        System.Diagnostics.Debug.WriteLine("[ViewModel] UpdateHtmlContent called");
         var hunterCharacter = _sharedDataService.CurrentGame?.HunPlayer?.Character;
 
         string hunterName = "No Hunter Selected";
@@ -97,7 +98,7 @@ public partial class StatsViewerWindowViewModel : ViewModelBase
                 var modelFilePath = Path.Combine(pluginFolder, $"{folderName}.gltf");
                 if (File.Exists(modelFilePath))
                 {
-                    hunterModelPath = $"https://app.local/hunters/{folderName}/";
+                    hunterModelPath = $"/hunters/{folderName}/";
                     hunterModelFile = $"{folderName}.gltf";
                 }
             }
@@ -110,9 +111,9 @@ public partial class StatsViewerWindowViewModel : ViewModelBase
         {
             for (int i = 0; i < 4; i++)
             {
-                if (i < surPlayers.Count && surPlayers[i].Character != null && !string.IsNullOrEmpty(surPlayers[i].Character.Name))
+                if (i < surPlayers.Count && surPlayers[i].Character != null && !string.IsNullOrEmpty(surPlayers[i].Character?.Name))
                 {
-                    var survivorChar = surPlayers[i].Character;
+                    var survivorChar = surPlayers[i].Character!;
                     var folderName = GetFolderNameFromImageFileName(survivorChar.ImageFileName);
 
                     var pluginFolder = Path.Combine(
@@ -128,7 +129,7 @@ public partial class StatsViewerWindowViewModel : ViewModelBase
                             survivors.Add(new
                             {
                                 name = survivorChar.Name,
-                                modelPath = $"https://app.local/survivors/{folderName}/",
+                                modelPath = $"/survivors/{folderName}/",
                                 modelFile = $"{folderName}.gltf",
                                 hasModel = true
                             });
@@ -163,5 +164,6 @@ public partial class StatsViewerWindowViewModel : ViewModelBase
         {
             WriteIndented = false
         });
+        System.Diagnostics.Debug.WriteLine($"[ViewModel] HunterDataJson updated: {HunterDataJson}");
     }
 }
