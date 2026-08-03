@@ -4,10 +4,22 @@
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       Title="3DViewerIDV Settings">
 
-    <StackPanel Margin="20" MaxWidth="400" HorizontalAlignment="Left">
-        <ui:CardControl>
-            <StackPanel Margin="16">
-                <TextBlock Text="OBS Browser Source / OBS浏览器源"
+    <!--
+      TextBlocks without an explicit Foreground otherwise stay stuck at the
+      static default (black on dark themes) until the user toggles the theme,
+      which is when the DynamicResource brushes get re-resolved. Setting it
+      here binds them to the theme brush at load time.
+    -->
+    <Page.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
+        </Style>
+    </Page.Resources>
+
+    <WrapPanel Margin="20" Orientation="Horizontal">
+        <Border Width="320" Margin="0,0,20,20" VerticalAlignment="Top" Style="{DynamicResource Card}">
+            <StackPanel>
+                <TextBlock Text="Dev server / 开发服务器"
                            FontSize="16"
                            FontWeight="SemiBold"
                            Margin="0,0,0,15"/>
@@ -57,26 +69,227 @@
                                IsEnabled="{Binding IsServerRunning}"/>
                 </StackPanel>
 
-                <!-- Server url -->
-                <TextBlock>
-                    <Hyperlink Command="{Binding OpenServerUrlCommand}"
-                               TextDecorations="None">
-                        <TextBlock Text="{Binding ServerUrl}"
-                                   FontSize="14"
-                                   Foreground="{DynamicResource TextFillColorSecondaryBrush}">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsServerRunning}" Value="True">
-                                            <Setter Property="Foreground" Value="{DynamicResource AccentTextFillColorPrimaryBrush}"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
+                <!-- Server URLs -->
+                <StackPanel Margin="0,10,0,0">
+                    <TextBlock Text="Dev"
+                               FontSize="12"
+                               Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+                               Margin="0,0,0,3"/>
+                    <TextBlock>
+                        <Hyperlink Command="{Binding OpenDevModeUrlCommand}"
+                                   TextDecorations="None">
+                            <TextBlock Text="{Binding DevModeUrl}"
+                                       FontSize="14"
+                                       Foreground="{DynamicResource TextFillColorSecondaryBrush}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsServerRunning}" Value="True">
+                                                <Setter Property="Foreground" Value="{DynamicResource AccentTextFillColorPrimaryBrush}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+
+                <StackPanel Margin="0,10,0,0">
+                    <TextBlock Text="OBS"
+                               FontSize="12"
+                               Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+                               Margin="0,0,0,3"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center">
+                            <Hyperlink Command="{Binding OpenServerUrlCommand}"
+                                       TextDecorations="None">
+                                <TextBlock Text="{Binding ServerUrl}"
+                                           FontSize="14"
+                                           Foreground="{DynamicResource TextFillColorSecondaryBrush}">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsServerRunning}" Value="True">
+                                                    <Setter Property="Foreground" Value="{DynamicResource AccentTextFillColorPrimaryBrush}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Hyperlink>
                         </TextBlock>
-                    </Hyperlink>
-                </TextBlock>
+                        <ui:Button Margin="8,0,0,0"
+                                   Padding="6,2"
+                                   Command="{Binding CopyServerUrlCommand}"
+                                   Icon="{ui:SymbolIcon Copy24}"
+                                   IsEnabled="{Binding IsServerRunning}"
+                                   ToolTip="Copy URL"/>
+                    </StackPanel>
+                </StackPanel>
             </StackPanel>
-        </ui:CardControl>
-    </StackPanel>
+        </Border>
+
+        <!-- Scene File Management -->
+        <Border Width="320" Margin="0,0,20,20" VerticalAlignment="Top" Style="{DynamicResource Card}">
+            <StackPanel>
+                <TextBlock Text="Scene File Management / 场景文件管理"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Margin="0,0,0,15"/>
+
+                <!-- scene.glb -->
+                <TextBlock Text="Scene (.glb)"
+                           FontSize="12"
+                           Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+                           Margin="0,0,0,3"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,12">
+                    <!-- Upload Scene Button -->
+                    <ui:Button Content="Upload"
+                               Command="{Binding UploadSceneCommand}"
+                               Icon="{ui:SymbolIcon ArrowUpload24}"
+                               Margin="0,0,10,0"/>
+
+                    <!-- Download Scene Button -->
+                    <ui:Button Content="Download"
+                               Command="{Binding DownloadSceneCommand}"
+                               Icon="{ui:SymbolIcon ArrowDownload24}"
+                               Margin="0,0,10,0"/>
+
+                    <!-- Show in Explorer Button -->
+                    <ui:Button Command="{Binding ShowInExplorerCommand}"
+                               Icon="{ui:SymbolIcon Folder24}"
+                               ToolTip="Show in Explorer"/>
+                </StackPanel>
+
+                <!-- viewer_settings.json -->
+                <TextBlock Text="Viewer settings (.json)"
+                           FontSize="12"
+                           Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+                           Margin="0,0,0,3"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <!-- Import viewer_settings.json -->
+                    <ui:Button Content="Import"
+                               Command="{Binding ImportViewerSettingsCommand}"
+                               Icon="{ui:SymbolIcon ArrowUpload24}"
+                               Margin="0,0,10,0"
+                               ToolTip="Replace viewer_settings.json from a file on disk"/>
+
+                    <!-- Export viewer_settings.json -->
+                    <ui:Button Content="Export"
+                               Command="{Binding ExportViewerSettingsCommand}"
+                               Icon="{ui:SymbolIcon ArrowDownload24}"
+                               ToolTip="Save current viewer_settings.json as a file"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- Character Models Download -->
+        <Border Width="320" Margin="0,0,20,20" VerticalAlignment="Top" Style="{DynamicResource Card}">
+            <StackPanel>
+                <TextBlock Text="Character Models / 角色模型"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Margin="0,0,0,15"/>
+
+                <!-- Download Progress -->
+                <Grid Margin="0,0,0,15">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Hunters count -->
+                    <TextBlock Grid.Row="0" Grid.Column="0"
+                               Text="Hunters:"
+                               VerticalAlignment="Center"
+                               Margin="0,0,10,5"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1"
+                               VerticalAlignment="Center"
+                               Margin="0,0,0,5">
+                        <Run Text="{Binding DownloadedHunters, Mode=OneWay}"/>
+                        <Run Text="/"/>
+                        <Run Text="{Binding TotalHunters, Mode=OneWay}"/>
+                    </TextBlock>
+
+                    <!-- Survivors count -->
+                    <TextBlock Grid.Row="1" Grid.Column="0"
+                               Text="Survivors:"
+                               VerticalAlignment="Center"
+                               Margin="0,0,10,5"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1"
+                               VerticalAlignment="Center"
+                               Margin="0,0,0,5">
+                        <Run Text="{Binding DownloadedSurvivors, Mode=OneWay}"/>
+                        <Run Text="/"/>
+                        <Run Text="{Binding TotalSurvivors, Mode=OneWay}"/>
+                    </TextBlock>
+                </Grid>
+
+                <!-- Current download status -->
+                <TextBlock Text="{Binding CurrentDownloadCharacter}"
+                           FontSize="12"
+                           Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                           Margin="0,0,0,10"
+                           TextWrapping="Wrap">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CurrentDownloadCharacter}" Value="">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <!-- Download buttons -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <ui:Button Content="Download All"
+                               Command="{Binding DownloadCharactersCommand}"
+                               Appearance="Primary"
+                               Icon="{ui:SymbolIcon ArrowDownload24}"
+                               Margin="0,0,10,0">
+                        <ui:Button.Style>
+                            <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+                                <Setter Property="IsEnabled" Value="True"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsDownloading}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ui:Button.Style>
+                    </ui:Button>
+
+                    <ui:Button Content="Cancel"
+                               Command="{Binding CancelDownloadCommand}"
+                               Appearance="Secondary"
+                               Icon="{ui:SymbolIcon Dismiss24}"
+                               IsEnabled="{Binding IsDownloading}"
+                               Margin="0,0,10,0"/>
+
+                    <ui:Button Command="{Binding RefreshDownloadedCountsCommand}"
+                               Icon="{ui:SymbolIcon ArrowSync24}"
+                               ToolTip="Refresh downloaded counts">
+                        <ui:Button.Style>
+                            <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+                                <Setter Property="IsEnabled" Value="True"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsDownloading}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ui:Button.Style>
+                    </ui:Button>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </WrapPanel>
 </Page>

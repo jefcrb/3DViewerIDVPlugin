@@ -1,4 +1,8 @@
 .vs
+.claude
 bin
 obj
-*StatsViewer*
+*.md
+
+!README.md
+!CLAUDE.md

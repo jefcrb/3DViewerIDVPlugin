@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0-windows</TargetFramework>
+    <TargetFramework>net10.0-windows</TargetFramework>
     <RootNamespace>neo_bpsys_wpf._3DViewerIDV</RootNamespace>
     <AssemblyName>neo-bpsys-wpf.3DViewerIDV</AssemblyName>
     <Nullable>enable</Nullable>
@@ -10,19 +10,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\neo-bpsys-wpf.PluginSdk\neo-bpsys-wpf.PluginSdk.csproj">
-      <ExcludeAssets>runtime</ExcludeAssets>
-    </ProjectReference>
+    <ProjectReference Include="C:\Users\jef\Downloads\neo-bpsys-wpf-main (2)\neo-bpsys-wpf-main\neo-bpsys-wpf.PluginSdk\neo-bpsys-wpf.PluginSdk.csproj" Private="false" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2730.86" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2739.15" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Include="Models\PluginSettings.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Services\WebServer.cs" />
+    <Compile Include="Services\CharacterDownloadService.cs" />
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="ViewModels\StatsViewerWindowViewModel.cs" />
     <Compile Include="Views\SettingsPage.xaml.cs">
@@ -48,11 +47,11 @@
     <None Include="manifest.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="wwwroot\**\*">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Include="characters_catalog.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
-  <Import Project="..\neo-bpsys-wpf.PluginSdk\neo-bpsys-wpf.PluginSdk.targets" />
+  <Import Project="C:\Users\jef\Downloads\neo-bpsys-wpf-main (2)\neo-bpsys-wpf-main\neo-bpsys-wpf.PluginSdk\neo-bpsys-wpf.PluginSdk.targets" />
 
 </Project>

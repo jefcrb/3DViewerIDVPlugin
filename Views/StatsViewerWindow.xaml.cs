@@ -4,12 +4,13 @@ using System.Windows;
 using Microsoft.Web.WebView2.Core;
 using neo_bpsys_wpf.Core;
 using neo_bpsys_wpf.Core.Attributes;
+using neo_bpsys_wpf.Core.Controls;
 using neo_bpsys_wpf._3DViewerIDV.ViewModels;
 
 namespace neo_bpsys_wpf._3DViewerIDV.Views;
 
-[FrontedWindowInfo(id: "StatsViewerWindow", name: "3D View", canvas: ["MainCanvas"])]
-public partial class StatsViewerWindow : Window
+[FrontedWindowInfo("8A770775-5CF2-405E-AE77-9ED8C1081230", "3D View")]
+public partial class StatsViewerWindow : FrontedWindowBase
 {
     private readonly StatsViewerWindowViewModel _viewModel;
     private bool _isInitialized = false;
@@ -21,6 +22,18 @@ public partial class StatsViewerWindow : Window
         DataContext = _viewModel;
 
         Loaded += StatsViewerWindow_Loaded;
+    }
+
+    // FrontedWindowBase wraps Window.Content in an auto-scaling Viewbox, but
+    // WebView2 is a hosted native HWND (airspace) and doesn't participate in
+    // WPF render transforms — inside a Viewbox it renders as a blank white
+    // rectangle. Skip the wrap so the WebView2 fills the window at 1:1.
+    protected override void OnContentChanged(object oldContent, object newContent)
+    {
+        // Intentionally NOT calling base.OnContentChanged. The Content DP
+        // setter has already updated the logical tree; OnContentChanged is
+        // only a change notification hook, so skipping FrontedWindowBase's
+        // Viewbox wrap does not break parenting.
     }
 
     private async void StatsViewerWindow_Loaded(object sender, RoutedEventArgs e)

@@ -14,6 +14,9 @@ public class WebServer : IDisposable
     private CancellationTokenSource? _cts;
     private Task? _runTask;
     private readonly string _wwwrootPath;
+    private readonly string _settingsPath;
+    private readonly string _keyframeAnimationsPath;
+    private readonly string _theatreStatePath;
     private readonly int _port;
 
     public WebServer(Func<string> jsonProvider, int port = 8080)
@@ -27,6 +30,9 @@ public class WebServer : IDisposable
             "neo-bpsys-wpf", "Plugins", "3DViewerIDV"
         );
         _wwwrootPath = Path.Combine(pluginFolder, "wwwroot");
+        _settingsPath = Path.Combine(_wwwrootPath, "viewer_settings.json");
+        _keyframeAnimationsPath = Path.Combine(_wwwrootPath, "keyframe_animations.json");
+        _theatreStatePath = Path.Combine(_wwwrootPath, "theatre_state.json");
     }
 
     public void Start()
@@ -96,13 +102,136 @@ public class WebServer : IDisposable
                 return;
             }
 
-            // Handle API endpoint
+            // Handle API endpoints
             if (request.Url?.AbsolutePath == "/api/characters")
             {
                 var json = _jsonProvider();
                 System.Diagnostics.Debug.WriteLine($"[WebServer] /api/characters called, returning: {json}");
                 var buffer = Encoding.UTF8.GetBytes(json);
                 response.ContentType = "application/json";
+                response.ContentLength64 = buffer.Length;
+                response.OutputStream.Write(buffer, 0, buffer.Length);
+                response.Close();
+                return;
+            }
+
+            // Handle settings GET
+            if (request.Url?.AbsolutePath == "/api/settings" && request.HttpMethod == "GET")
+            {
+                string json = "{}";
+                if (File.Exists(_settingsPath))
+                {
+                    json = File.ReadAllText(_settingsPath, Encoding.UTF8);
+                    System.Diagnostics.Debug.WriteLine($"[WebServer] Settings loaded from file");
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine($"[WebServer] No settings file found, returning empty");
+                }
+
+                var buffer = Encoding.UTF8.GetBytes(json);
+                response.ContentType = "application/json";
+                response.ContentLength64 = buffer.Length;
+                response.OutputStream.Write(buffer, 0, buffer.Length);
+                response.Close();
+                return;
+            }
+
+            // Handle settings POST
+            if (request.Url?.AbsolutePath == "/api/settings" && request.HttpMethod == "POST")
+            {
+                using var reader = new StreamReader(request.InputStream, request.ContentEncoding);
+                var json = reader.ReadToEnd();
+
+                File.WriteAllText(_settingsPath, json, Encoding.UTF8);
+                System.Diagnostics.Debug.WriteLine($"[WebServer] Settings saved to file: {_settingsPath}");
+
+                response.StatusCode = 200;
+                response.ContentType = "application/json";
+                var responseJson = "{\"success\":true}";
+                var buffer = Encoding.UTF8.GetBytes(responseJson);
+                response.ContentLength64 = buffer.Length;
+                response.OutputStream.Write(buffer, 0, buffer.Length);
+                response.Close();
+                return;
+            }
+
+            // Handle keyframe animations GET
+            if (request.Url?.AbsolutePath == "/api/keyframe-animations" && request.HttpMethod == "GET")
+            {
+                string json = "{\"version\":\"1.0\",\"animations\":{}}";
+                if (File.Exists(_keyframeAnimationsPath))
+                {
+                    json = File.ReadAllText(_keyframeAnimationsPath, Encoding.UTF8);
+                    System.Diagnostics.Debug.WriteLine($"[WebServer] Keyframe animations loaded from file");
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine($"[WebServer] No keyframe animations file found, returning empty");
+                }
+
+                var buffer = Encoding.UTF8.GetBytes(json);
+                response.ContentType = "application/json";
+                response.ContentLength64 = buffer.Length;
+                response.OutputStream.Write(buffer, 0, buffer.Length);
+                response.Close();
+                return;
+            }
+
+            // Handle keyframe animations POST
+            if (request.Url?.AbsolutePath == "/api/keyframe-animations" && request.HttpMethod == "POST")
+            {
+                using var reader = new StreamReader(request.InputStream, request.ContentEncoding);
+                var json = reader.ReadToEnd();
+
+                File.WriteAllText(_keyframeAnimationsPath, json, Encoding.UTF8);
+                System.Diagnostics.Debug.WriteLine($"[WebServer] Keyframe animations saved to file: {_keyframeAnimationsPath}");
+
+                response.StatusCode = 200;
+                response.ContentType = "application/json";
+                var responseJson = "{\"success\":true}";
+                var buffer = Encoding.UTF8.GetBytes(responseJson);
+                response.ContentLength64 = buffer.Length;
+                response.OutputStream.Write(buffer, 0, buffer.Length);
+                response.Close();
+                return;
+            }
+
+            // Handle theatre state GET
+            if (request.Url?.AbsolutePath == "/api/theatre" && request.HttpMethod == "GET")
+            {
+                string json = "{}";
+                if (File.Exists(_theatreStatePath))
+                {
+                    json = File.ReadAllText(_theatreStatePath, Encoding.UTF8);
+                    System.Diagnostics.Debug.WriteLine($"[WebServer] Theatre state loaded from file");
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine($"[WebServer] No theatre state file found, returning empty");
+                }
+
+                var buffer = Encoding.UTF8.GetBytes(json);
+                response.ContentType = "application/json";
+                response.ContentLength64 = buffer.Length;
+                response.OutputStream.Write(buffer, 0, buffer.Length);
+                response.Close();
+                return;
+            }
+
+            // Handle theatre state POST
+            if (request.Url?.AbsolutePath == "/api/theatre" && request.HttpMethod == "POST")
+            {
+                using var reader = new StreamReader(request.InputStream, request.ContentEncoding);
+                var json = reader.ReadToEnd();
+
+                File.WriteAllText(_theatreStatePath, json, Encoding.UTF8);
+                System.Diagnostics.Debug.WriteLine($"[WebServer] Theatre state saved to file: {_theatreStatePath}");
+
+                response.StatusCode = 200;
+                response.ContentType = "application/json";
+                var responseJson = "{\"success\":true}";
+                var buffer = Encoding.UTF8.GetBytes(responseJson);
                 response.ContentLength64 = buffer.Length;
                 response.OutputStream.Write(buffer, 0, buffer.Length);
                 response.Close();
